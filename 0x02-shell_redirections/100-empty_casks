@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -laR | awk '/   0/ {print}' | awk '{print $NF}'
+ls -laR | cut -d'\t' -f9

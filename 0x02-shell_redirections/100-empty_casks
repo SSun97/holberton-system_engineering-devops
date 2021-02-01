@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -laR | cut -d'\t' -f9
+ls -laR | cut -d'\t' -f10

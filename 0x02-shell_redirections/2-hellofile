@@ -1,3 +1,2 @@
 #!/bin/bash
-emacs /etc/passwd
-
+cat /etc/passwd

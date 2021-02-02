@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $(($BEATH**LOVE$))
+echo -e "$(($BEATH**LOVE$))\n"

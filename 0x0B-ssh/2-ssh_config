@@ -1,0 +1,6 @@
+host simon
+        HostName 3.90.35.112
+        user ubuntu
+        PasswordAuthentication No
+        StrictHostKeyChecking No
+        IdentityFile ~/.ssh/web01

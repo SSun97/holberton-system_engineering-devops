@@ -1,7 +1,11 @@
 # Puppt
-class ssh::config {
-  file { ssh::params::/etc/ssh/ssh_config:
-    PasswordAuthentication => No
-    StricHostKeyChecking => No
-  }
+file_line { 'Turn off passwd auth':
+  ensure => 'present',
+  path   => '/etc/ssh/ssh_config',
+  line   => 'PasswordAuthentication no',
+}
+file_line { 'identity file':
+  ensure => 'present',
+  path   => '/etc/ssh/ssh_config',
+  line   => 'IdentityFile ~/.ssh/holberton',
 }

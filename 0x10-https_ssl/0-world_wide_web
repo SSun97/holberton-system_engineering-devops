@@ -4,7 +4,7 @@ printInfo() {
 	recordType=$(dig $2.$1 | grep -A1 'ANSWER SECTION:' | awk '{print $4,$5}')
 	record=$(echo $recordType | awk '{print $1}')
 	ip=$(echo $recordType | awk '{print $2}')
-	echo "The subdomain $2 is a $record record and point to $ip"
+	echo "The subdomain $2 is a $record record and points to $ip"
 }
 
 if [ $# -eq 1 ]

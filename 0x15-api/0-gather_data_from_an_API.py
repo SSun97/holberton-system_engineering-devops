@@ -1,46 +1,29 @@
 #!/usr/bin/python3
-""" Write a Python script that, using this REST API """
-import sys
+"""This module returns employee task information"""
 import requests
-import sys
+from sys import argv
 
 
-def get_employee_tasks(employeeId):
-    # print(employeeId);
-    # variables
-    name = ''
+if __name__ == "__main__":
+
+    count = 0
     task_list = []
-    completed_counter = 0
 
-    # Do the Get requests
-    usersRes = requests.get('https://jsonplaceholder.typicode\
-                           .com/users/{}'.format(employeeId))
-    todosRes = requests.get('https://jsonplaceholder.typicode.\
-                            com/users/{}/todos'.format(employeeId))
-    # print("usersRes: {}\n".format(usersRes))
-    # print("todosRes: {}\n".format(todos))
+    userRes = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                        .format(argv[1]))
+    todosRes = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'
+                        .format(argv[1]))
 
-    # Get the JSON from responses
-    name = usersRes.json().get('name')
-    # print("Name: {}".format(name))
-    todosJson = todosRes.json()
-    # print("todosJson: {}".format(todosJson))
-    # loop the tasks
-    for task in todosJson:
-        # up the counter if completed
+    name = userRes.json().get('name')
+    tasks = todosRes.json()
+
+    for task in tasks:
         if task.get('completed') is True:
-            completed_counter += 1
-            # save task title to task_list
+            count += 1
             task_list.append(task.get('title'))
+
     print('Employee {} is done with tasks({}/{}):'
-          .format(name, completed_counter, len(todosJson)))
+          .format(name, count, len(tasks)))
 
     for task in task_list:
         print('\t {}'.format(task))
-    # print("task_list: {}".format(task_list))
-    # Print first line
-    # print()
-    return 0
-
-if __name__ == "__main__":
-    get_employee_tasks(sys.argv[1])

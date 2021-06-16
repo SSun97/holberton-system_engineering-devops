@@ -1,28 +1,41 @@
 #!/usr/bin/python3
-"""This module returns employee task information"""
+"""for api"""
+import json
 import requests
-from sys import argv
+import sys
 
 
-if __name__ == "__main__":
+def export_to_json(employeeId):
+    """for api"""
+    # variables
+    username = ''
+    userDict = {}
 
-    count = 0
-    task_list = []
+    # do the get requests
+    usersRes = requests.get(
+        "https://jsonplaceholder.typicode.com/users/{}".
+        format(employeeId))
+    todosRes = requests.get(
+        "https://jsonplaceholder.typicode.com/users/{}/todos".
+        format(employeeId))
 
-    userRes = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                           .format(argv[1]))
-    todo = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'.format(argv[1]))
+    # get the json from responses
+    username = usersRes.json().get('username')
+    todosJson = todosRes.json()
 
-    name = userRes.json().get('name')
-    tasks = todo.json()
+    userDict[employeeId] = []
+    # loop through and save
 
-    for task in tasks:
-        if task.get('completed') is True:
-            count += 1
-            task_list.append(task.get('title'))
+    for task in todosJson:
+        taskDict = {}
+        taskDict['task'] = task.get('title')
+        taskDict['username'] = username
+        taskDict['completed'] = task.get('completed')
 
-    print('Employee {} is done with tasks({}/{}):'
-          .format(name, count, len(tasks)))
+        userDict[employeeId].append(taskDict)
 
-    for task in task_list:
-        print('\t {}'.format(task))
+    with open("{}.json".format(employeeId), 'w') as jFile:
+        json.dump(userDict, jFile)
+
+if __name__ == '__main__':
+    export_to_json(sys.argv[1])

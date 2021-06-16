@@ -1,28 +1,43 @@
 #!/usr/bin/python3
 """This module returns employee task information"""
 import requests
-from sys import argv
+import sys
 
 
-if __name__ == "__main__":
-
-    count = 0
+def get_employee_tasks(employeeId):
+    """for api"""
+    # variables
+    name = ''
     task_list = []
+    completed_counter = 0
 
-    userRes = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                           .format(argv[1]))
-    todo = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'.format(argv[1]))
+    # do the get requests
+    usersRes = requests.get(
+        "https://jsonplaceholder.typicode.com/users/{}".format(employeeId))
+    todosRes = requests.get(
+        "https://jsonplaceholder.typicode.com/users/{}/todos".
+        format(employeeId))
 
-    name = userRes.json().get('name')
-    tasks = todo.json()
+    # get the json from responses
+    name = usersRes.json().get('name')
+    todosJson = todosRes.json()
+    # save the employee Name
 
-    for task in tasks:
+    # loop the tasks
+    for task in todosJson:
+        # up the counter if completed
         if task.get('completed') is True:
-            count += 1
+            completed_counter += 1
+            # save the task title to task_list
             task_list.append(task.get('title'))
 
-    print('Employee {} is done with tasks({}/{}):'
-          .format(name, count, len(tasks)))
+    # print first line
+    print('Employee {} is done with tasks({}/{}):'.format(
+        name, completed_counter, len(todosJson)))
+    # loop the task_list and print tasks
+    for title in task_list:
+        print('\t {}'.format(title))
+    return 0
 
-    for task in task_list:
-        print('\t {}'.format(task))
+if __name__ == '__main__':
+    get_employee_tasks(sys.argv[1])

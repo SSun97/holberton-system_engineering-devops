@@ -10,12 +10,11 @@ if __name__ == "__main__":
     task_list = []
 
     userRes = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                        .format(argv[1]))
-    todosRes = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'
-                        .format(argv[1]))
+                           .format(argv[1]))
+    todo = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'.format(argv[1]))
 
     name = userRes.json().get('name')
-    tasks = todosRes.json()
+    tasks = todo.json()
 
     for task in tasks:
         if task.get('completed') is True:

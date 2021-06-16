@@ -13,7 +13,8 @@ def get_employee_tasks(employeeId):
 
     # do the get requests
     usersRes = requests.get(
-        "https://jsonplaceholder.typicode.com/users/{}".format(employeeId))
+        "https://jsonplaceholder.typicode.com/users/{}".
+        format(employeeId))
     todosRes = requests.get(
         "https://jsonplaceholder.typicode.com/users/{}/todos".
         format(employeeId))
